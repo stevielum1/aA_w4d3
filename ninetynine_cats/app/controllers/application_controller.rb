@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  helper_method :current_user
+  helper_method :current_user, :current_users_cat?
   
   def current_user
     return nil unless session[:session_token]
@@ -22,6 +22,12 @@ class ApplicationController < ActionController::Base
   
   def already_signed_in?
     redirect_to cats_url if logged_in?
+  end
+  
+  def current_users_cat?
+    cat = Cat.find(params[:id])
+    current_users_cats = current_user.cats
+    current_users_cats.include?(cat)
   end
   
 end

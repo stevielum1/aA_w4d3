@@ -17,6 +17,10 @@ class User < ApplicationRecord
   validates :user_name, :session_token, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
   
+  has_many :requests,
+  foreign_key: :user_id,
+  class_name: :CatRentalRequest
+  
   def self.find_by_credentials(user_name, pw)
     user = User.find_by(user_name: user_name)
     return nil if user.nil?
@@ -41,5 +45,10 @@ class User < ApplicationRecord
   def is_password?(pw)
     BCrypt::Password.new(self.password_digest).is_password?(pw)
   end
+  
+  has_many :cats,
+  primary_key: :id,
+  foreign_key: :user_id,
+  class_name: :Cat
   
 end
