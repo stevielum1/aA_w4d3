@@ -25,9 +25,9 @@ class ApplicationController < ActionController::Base
   end
   
   def current_users_cat?
-    cat = Cat.find(params[:id])
+    @cat ||= Cat.find(params[:id])
     current_users_cats = current_user.cats
-    current_users_cats.include?(cat)
+    current_users_cats.include?(@cat)
   end
   
 end

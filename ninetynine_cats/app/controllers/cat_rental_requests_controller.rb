@@ -10,6 +10,7 @@ class CatRentalRequestsController < ApplicationController
     @rental_request = CatRentalRequest.new(cat_rental_request_params)
     @rental_request.user_id = current_user.id
     if @rental_request.save
+      @rental_request = @rental_request.includes :requestor
       redirect_to cat_url(@rental_request.cat)
     else
       flash.now[:errors] = @rental_request.errors.full_messages
